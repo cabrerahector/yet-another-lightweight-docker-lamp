@@ -1,0 +1,85 @@
+version: '3'
+services:
+  #PHP
+  php:
+    build:
+      context: './docker/php/'
+      args:
+        PHP_VERSION: ${PHP_VERSION:-7.3}
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    volumes:
+      - ./src/:/var/www/html/
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+    container_name: ${PHP_NAME}
+
+  #Apache
+  apache:
+    build:
+      context: './docker/apache/'
+      args:
+        APACHE_VERSION: ${APACHE_VERSION:-4.2}
+    environment:
+        APACHE_ROOT_FOLDER: ${APACHE_ROOT_FOLDER}
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - php
+    networks:
+      - app-network
+    ports:
+      - 80:80
+    volumes:
+      - ./src/:/var/www/html/
+    container_name: ${APACHE_NAME}
+
+  #MySQL
+  db:
+    build:
+      context: './docker/mysql/'
+      args:
+          MYSQL_VERSION: ${MYSQL_VERSION:-5.7}
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-app_db}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-supersecret}
+      MYSQL_USER: ${DB_USERNAME:-user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-123abc}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql/
+      #- ./docker/mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    networks:
+      - app-network
+    container_name: ${MYSQL_NAME}
+
+  #phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:${PHPMYADMIN_VERSION:-4.7}
+    ports:
+      - "8080:80"
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: ${DB_ROOT_PASSWORD:-supersecret}
+    networks:
+      - app-network
+    container_name: ${PHPMYADMIN_NAME}
+
+#Networks
+networks:
+  app-network:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
