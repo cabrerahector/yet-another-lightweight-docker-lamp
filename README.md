@@ -26,7 +26,7 @@ Out of the box, you'll get:
 - MySQL 8.0
 - phpMyAdmin 5.2
 
-You'll find an `.env` file at the root directory that you can edit to change the configuration of your LAMP stack. If you change anything in there, please make sure to do a rebuild (`docker-compose build --no-cache`) to update your LAMP stack accordingly.
+You'll also find an `.env.example` file at the root directory that you can use to create a new `.env` file (eg. `cp .env.example .env`) to change the configuration of your LAMP stack. You may need to do a full rebuild (`docker-compose build --no-cache`) afterwards to update your LAMP stack accordingly.
 
 Once you're satisfied with the configuration, place your web application files inside the `src` folder, open a command prompt/[CLI](https://en.wikipedia.org/wiki/Command-line_interface) and run `docker-compose up -d` to start your LAMP stack.
 
