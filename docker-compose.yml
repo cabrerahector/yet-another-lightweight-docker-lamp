@@ -4,7 +4,7 @@ services:
     build:
       context: './docker/php/'
       args:
-        PHP_VERSION: ${PHP_VERSION:-7.3}
+        PHP_VERSION: ${PHP_VERSION:-8.1}
     restart: unless-stopped
     tty: true
     environment:
@@ -42,7 +42,7 @@ services:
     build:
       context: './docker/mysql/'
       args:
-          MYSQL_VERSION: ${MYSQL_VERSION:-5.7}
+          MYSQL_VERSION: ${MYSQL_VERSION:-8.0}
     restart: unless-stopped
     tty: true
     ports:
@@ -63,7 +63,7 @@ services:
 
   #phpmyadmin
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:${PHPMYADMIN_VERSION:-4.7}
+    image: phpmyadmin/phpmyadmin:${PHPMYADMIN_VERSION:-5.2}
     ports:
       - "8080:80"
     environment:

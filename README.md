@@ -22,9 +22,9 @@ Before you proceed, make sure that you have the following components installed a
 Out of the box, you'll get:
 
 - Apache 4.2
-- PHP 7.3
-- MySQL 5.7
-- phpMyAdmin 4.7
+- PHP 8.1
+- MySQL 8.0
+- phpMyAdmin 5.2
 
 You'll find an `.env` file at the root directory that you can edit to change the configuration of your LAMP stack. If you change anything in there, please make sure to do a rebuild (`docker-compose build --no-cache`) to update your LAMP stack accordingly.
 
