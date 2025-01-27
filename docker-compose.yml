@@ -15,16 +15,16 @@ services:
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
-    container_name: ${PHP_NAME}
+    container_name: ${PHP_NAME:-php}
 
   #Apache
   apache:
     build:
       context: './docker/apache/'
       args:
-        APACHE_VERSION: ${APACHE_VERSION:-4.2}
+        APACHE_VERSION: ${APACHE_VERSION:-2.4}
     environment:
-        APACHE_ROOT_FOLDER: ${APACHE_ROOT_FOLDER}
+        APACHE_ROOT_FOLDER: ${APACHE_ROOT_FOLDER:-/var/www/html}
     restart: unless-stopped
     tty: true
     depends_on:
@@ -35,7 +35,7 @@ services:
       - 80:80
     volumes:
       - ./src/:/var/www/html/
-    container_name: ${APACHE_NAME}
+    container_name: ${APACHE_NAME:-web}
 
   #MySQL
   db:
@@ -59,7 +59,7 @@ services:
       #- ./docker/mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     networks:
       - app-network
-    container_name: ${MYSQL_NAME}
+    container_name: ${MYSQL_NAME:-mysql}
 
   #phpmyadmin
   phpmyadmin:
@@ -71,7 +71,7 @@ services:
       MYSQL_PASSWORD: ${DB_ROOT_PASSWORD:-supersecret}
     networks:
       - app-network
-    container_name: ${PHPMYADMIN_NAME}
+    container_name: ${PHPMYADMIN_NAME:-phpmyadmin}
 
 #Networks
 networks:

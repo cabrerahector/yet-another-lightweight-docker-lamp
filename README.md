@@ -21,7 +21,7 @@ Before you proceed, make sure that you have the following components installed a
 
 Out of the box, you'll get:
 
-- Apache 4.2
+- Apache 2.4
 - PHP 8.1
 - MySQL 8.0
 - phpMyAdmin 5.2
