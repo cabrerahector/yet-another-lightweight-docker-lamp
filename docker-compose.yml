@@ -15,7 +15,6 @@ services:
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
-    container_name: ${PHP_NAME:-php}
 
   #Apache
   apache:
@@ -35,7 +34,6 @@ services:
       - 80:80
     volumes:
       - ./src/:/var/www/html/
-    container_name: ${APACHE_NAME:-web}
 
   #MySQL
   db:
@@ -59,7 +57,6 @@ services:
       #- ./docker/mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     networks:
       - app-network
-    container_name: ${MYSQL_NAME:-mysql}
 
   #phpmyadmin
   phpmyadmin:
@@ -71,7 +68,6 @@ services:
       MYSQL_PASSWORD: ${DB_ROOT_PASSWORD:-supersecret}
     networks:
       - app-network
-    container_name: ${PHPMYADMIN_NAME:-phpmyadmin}
 
 #Networks
 networks:
