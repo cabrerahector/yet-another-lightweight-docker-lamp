@@ -11,7 +11,7 @@ services:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
     volumes:
-      - ./src/:/var/www/html/
+      - ./src/:${APACHE_ROOT_FOLDER:-/var/www/html}
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
@@ -33,8 +33,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./src/:/var/www/html/
-
+      - ./src/:${APACHE_ROOT_FOLDER:-/var/www/html}
   #MySQL
   db:
     build:
